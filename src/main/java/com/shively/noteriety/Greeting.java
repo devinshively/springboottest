@@ -1,4 +1,4 @@
-package com.shively.noteriety.notes;
+package com.shively.noteriety;
 
 public class Greeting {
 

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -24,9 +25,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public User createUser(@RequestBody @Valid final User user) {
+    public ResponseEntity<User> createUser(@RequestBody @Valid final User user) {
         LOGGER.debug("Received request to create the {}", user);
-        return userService.save(user);
+        return new ResponseEntity<User>(userService.save(user), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
