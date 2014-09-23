@@ -1,0 +1,20 @@
+#!/bin/bash
+set -x
+<<<<<<< HEAD
+if [ ! -d $OPENSHIFT_DATA_DIR/gradle-1.6 ]
+then
+    cd $OPENSHIFT_DATA_DIR
+    mkdir gradle
+    wget https://services.gradle.org/distributions/gradle-1.6-bin.zip
+    unzip gradle-1.6-bin.zip
+    rm -f gradle-1.6-bin.zip
+=======
+if [ ! -d $OPENSHIFT_DATA_DIR/gradle-1.11 ]
+then
+    cd $OPENSHIFT_DATA_DIR
+    mkdir gradle
+    wget https://services.gradle.org/distributions/gradle-1.11-bin.zip
+    unzip gradle-1.11-bin.zip
+    rm -f gradle-1.11-bin.zip
+>>>>>>> 2441bcb50e6d0411e19151167895adbb5021242d
+fi
