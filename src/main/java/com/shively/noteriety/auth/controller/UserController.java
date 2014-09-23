@@ -27,7 +27,7 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<User> createUser(@RequestBody @Valid final User user) {
         LOGGER.debug("Received request to create the {}", user);
-        return new ResponseEntity<User>(userService.save(user), HttpStatus.OK);
+        return new ResponseEntity<User>(userService.save(user), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
