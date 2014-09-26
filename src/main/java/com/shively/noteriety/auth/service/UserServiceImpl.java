@@ -5,6 +5,7 @@ import com.shively.noteriety.auth.repository.UserRepository;
 import com.shively.noteriety.auth.service.exception.UserAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User save(@NotNull @Valid final User user) {
+    public User register(@NotNull @Valid final User user) {
         LOGGER.debug("Creating {}", user);
         User existing = null;
         if(user.getId()!=null) existing = repository.findOne(user.getId());
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException(
                     String.format("There already exists a user with id=%s or username=%s", user.getId(), user.getUsername()));
         }
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return repository.save(user);
     }
 
@@ -46,6 +48,13 @@ public class UserServiceImpl implements UserService {
         LOGGER.debug("Finding user for : " + username);
         return repository.findByUsername(username);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User find(Long id) {
+        return repository.findOne(id);
+    }
+
 
     @Override
     @Transactional(readOnly = true)

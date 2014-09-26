@@ -35,7 +35,7 @@ public class UserServiceImplTest {
     public void shouldSaveNewUser_GivenThereDoesNotExistOneWithTheSameId_ThenTheSavedUserShouldBeReturned() throws Exception {
         final User savedUser = stubRepositoryToReturnUserOnSave();
         final User user = UserUtil.createUser();
-        final User returnedUser = userService.save(user);
+        final User returnedUser = userService.register(user);
         // verify repository was called with user
         verify(userRepository, times(1)).save(user);
         assertEquals("Returned user should come from the repository", savedUser, returnedUser);
@@ -51,7 +51,7 @@ public class UserServiceImplTest {
     public void shouldSaveNewUser_GivenThereExistsOneWithTheSameId_ThenTheExceptionShouldBeThrown() throws Exception {
         stubRepositoryToReturnExistingUser();
         try {
-            userService.save(UserUtil.createUser());
+            userService.register(UserUtil.createUser());
             fail("Expected exception");
         } catch (UserAlreadyExistsException ignored) {
         }

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.util.List;
@@ -24,10 +25,33 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
+//    @PermitAll
+//    @RequestMapping(value = "/api/user/login", method = RequestMethod.POST)
+//    public ResponseEntity<String> userLogin(@RequestBody final User user) {
+//        User userInDb = userService.findByUsername(user.getUsername());
+//        if(user.getPassword().equals(userInDb.getPassword())) {
+//            return new ResponseEntity<>(tokenUtils.getToken(userInDb), HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//    }
+//
+//    @PermitAll
+//    @RequestMapping(value = "/api/user/logout", method = RequestMethod.GET)
+//    public ResponseEntity<String> userLogout() {
+//        // remove token?
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+
+    @RequestMapping(value = "/api/user", method = RequestMethod.GET)
+    public List<User> listUsersAPI() {
+        LOGGER.debug("Received request to list all users");
+        return userService.getList();
+    }
+
+    @RequestMapping(value = "/api/user/register", method = RequestMethod.POST)
     public ResponseEntity<User> createUser(@RequestBody @Valid final User user) {
         LOGGER.debug("Received request to create the {}", user);
-        return new ResponseEntity<User>(userService.save(user), HttpStatus.CREATED);
+        return new ResponseEntity<User>(userService.register(user), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
